@@ -4,26 +4,28 @@ import { Router } from '@angular/router';
 
 import { AuthService } from './auth.service';
 import { Store } from '@ngrx/store';
+import { getMarkUserName } from './state/user.reducer';
+import { State } from '../state/app.state';
 
 @Component({
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   pageTitle = 'Log In';
 
   maskUserName: boolean;
 
-  constructor(private store: Store<any>, private authService: AuthService, private router: Router) { }
+  constructor(
+    private store: Store<State>,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.store.select('user').subscribe(
-      user => {
-        if(user) {
-          this.maskUserName = user.maskUserName;
-        }
-      }
-    )
+    this.store
+      .select(getMarkUserName)
+      .subscribe((maskUserName) => (this.maskUserName = maskUserName));
   }
 
   cancel(): void {
@@ -31,9 +33,7 @@ export class LoginComponent implements OnInit {
   }
 
   checkChanged(): void {
-    this.store.dispatch(
-      { type: '[User] Mask User Name'}
-    )
+    this.store.dispatch({ type: '[User] Mask User Name' });
   }
 
   login(loginForm: NgForm): void {
