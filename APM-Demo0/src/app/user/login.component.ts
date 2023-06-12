@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 import { Store } from '@ngrx/store';
 import { getMarkUserName } from './state/user.reducer';
 import { State } from '../state/app.state';
-import * as UserActions from '../user/state/user.actions';
+import * as UserActions from './state/user-page.actions';
 import { Observable } from 'rxjs';
 
 @Component({
